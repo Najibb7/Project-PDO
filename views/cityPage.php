@@ -20,7 +20,7 @@ try {
 	// 	ORDER BY `taverne`.`t_nom` ASC
     //     ";
 
-    $q = 'SELECT DISTINCT v.v_id, v.v_nom, v.v_superficie, n.n_nom
+    $q = 'SELECT DISTINCT v.v_id, v.v_nom, v.v_superficie, n.n_nom, n.n_id
     FROM ville v
     LEFT JOIN nain n ON v.v_id = n.n_ville_fk
     WHERE v.v_id = :selectCity';
@@ -30,14 +30,12 @@ try {
     $request->execute();
     $city = $request->fetchAll(PDO::FETCH_ASSOC);
 
-    $query = "SELECT taverne.t_nom 
+    $query = "SELECT DISTINCT taverne.t_nom, taverne.t_id AS id_taverne
         FROM ville
         LEFT JOIN nain ON v_id = n_ville_fk
         LEFT JOIN taverne ON v_id = t_ville_fk
         LEFT JOIN tunnel ON v_id = t_villedepart_fk
-        WHERE v_id = :selectCity
-        GROUP BY t_nom
-		ORDER BY `taverne`.`t_nom` ASC";
+        WHERE v_id = :selectCity";
     $req = $pdo->prepare($query);
     $req->bindValue('selectCity', $cityId);
     $req->execute();
@@ -70,7 +68,11 @@ try {
                         <div class="modal-body">
                             <?php foreach ($city as $value) : ?>
                                 <?php if ($value['v_id'] == $cityId) : ?>
-                                    <p><?= $value['n_nom'] ?></p>
+                                    <p>
+                                    <a href="./dwarfPage.php?selectNain=<?= $value['n_id'] ?>">
+                                        <?= $value['n_nom'] ?>
+                                    </a>
+                                    </p>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
@@ -87,7 +89,9 @@ try {
 
                 <?php foreach ($tavernes as $taverne) : ?>
                     <li>
+                    <a href="./pubPage.php?selectPub=<?= $taverne['id_taverne'] ?>">
                         <?= $taverne['t_nom'] ?>
+                    </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
