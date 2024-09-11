@@ -12,7 +12,7 @@ try {
         $nainId = $_GET['selectNain'];
     }
 
-    $q = 'SELECT n_id, n_nom, n_barbe, n_groupe_fk, v_nom, t_nom, g_debuttravail, g_fintravail,t_villedepart_fk,t_villearrivee_fk 
+    $q = 'SELECT n_id, v_id, taverne.t_id AS id_taverne, n_nom, n_barbe, n_groupe_fk, v_nom, t_nom, g_debuttravail, g_fintravail,t_villedepart_fk,t_villearrivee_fk 
     FROM nain
     JOIN ville ON n_ville_fk = v_id
     LEFT JOIN groupe ON n_groupe_fk = g_id
@@ -33,13 +33,17 @@ try {
     $stmt = $pdo->query($q);
     $crews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $_GET['selectGroupe'] ?? '';
+    $currentGroup = $_GET['selectGroupe'] ?? '';
 
-    $qUpdate = 'UPDATE nain SET n_groupe_fk = :up_groupe WHERE n_id = :idNain';
-    $reqUpdate = $pdo->prepare($qUpdate);
-    $reqUpdate->bindValue('up_groupe', $_POST['selectGroup']);
-    $reqUpdate->bindValue('idNain', $nainId);
-    $reqUpdate->execute();
+    if (isset($_POST['selectGroup']) && $_POST['selectGroup'] !== $currentGroup) {
+        $newGroup = $_POST['selectGroup'];
+
+        $qUpdate = 'UPDATE nain SET n_groupe_fk = :up_groupe WHERE n_id = :idNain';
+        $reqUpdate = $pdo->prepare($qUpdate);
+        $reqUpdate->bindValue('up_groupe', $newGroup);
+        $reqUpdate->bindValue('idNain', $nainId);
+        $reqUpdate->execute();
+    }
 } catch (PDOException $e) {
     die($e->getMessage());
 }
@@ -49,14 +53,21 @@ try {
     <div class="card d-flex mx-auto" style="width: 24rem;">
         <div class="card-body d-flex text-center flex-column ">
             <h5 class="card-title">Name : <?= $nain['n_nom'] ?></h5>
-            <p class="card-text">City : <?= $nain['v_nom'] ?></p>
+            <p class="card-text">City : <a href="./cityPage.php?selectCity=<?= $nain['v_id'] ?>">
+                    <?= $nain['v_nom'] ?></a>
+            </p>
             <p class="card-text">Longueur de barbe : <?= $nain['n_barbe'] ?></p>
             <p class="card-text <?= $nain['t_nom'] == NULL ? 'd-none' : '' ?>">
-                Taverne : <?= $nain['t_nom'] ?>
+                Taverne :
+                <a href="./pubPage.php?selectPub=<?= $nain['id_taverne'] ?>">
+                    <?= $nain['t_nom'] ?>
+                </a>
             </p>
 
             <p class="card-text ">
-                <?= $nain['n_groupe_fk'] == NULL ? 'Aucun groupe' : ("Membre du groupe nº" . $nain['n_groupe_fk']) ?>
+                <a href="./crewPage.php?selectCrew=<?= $nain['n_groupe_fk'] ?>">
+                    <?= $nain['n_groupe_fk'] == NULL ? 'Aucun groupe' : ("Membre du groupe nº" . $nain['n_groupe_fk']) ?>
+                </a>
             </p>
 
             <p class="card-text <?= $nain['n_groupe_fk'] == NULL ? 'd-none' : '' ?>">
@@ -79,11 +90,11 @@ try {
                         <div class="modal-body">
                             <form action="" method="post">
                                 <select name="selectGroup" id="selectGroup" class="form-select" aria-label="Default select example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                                 <button type="submit" class="btn btn-danger my-2">Valider</button>
                             </form>

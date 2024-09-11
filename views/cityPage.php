@@ -10,15 +10,20 @@ try {
         $cityId = $_GET['selectCity'];
     }
 
-    $q = "SELECT v_id, v_nom, v_superficie, n_nom, taverne.t_nom 
-        FROM ville
-        LEFT JOIN nain ON v_id = n_ville_fk
-        LEFT JOIN taverne ON v_id = t_ville_fk
-        LEFT JOIN tunnel ON v_id = t_villedepart_fk
-        WHERE v_id = :selectCity
-        GROUP BY n_nom
-		ORDER BY `taverne`.`t_nom` ASC
-        ";
+    // $q = "SELECT v_id, v_nom, v_superficie, n_nom, taverne.t_nom 
+    //     FROM ville
+    //     LEFT JOIN nain ON v_id = n_ville_fk
+    //     LEFT JOIN taverne ON v_id = t_ville_fk
+    //     LEFT JOIN tunnel ON v_id = t_villedepart_fk
+    //     WHERE v_id = :selectCity
+    //     GROUP BY n_nom
+	// 	ORDER BY `taverne`.`t_nom` ASC
+    //     ";
+
+    $q = 'SELECT DISTINCT v.v_id, v.v_nom, v.v_superficie, n.n_nom
+    FROM ville v
+    LEFT JOIN nain n ON v.v_id = n.n_ville_fk
+    WHERE v.v_id = :selectCity';
 
     $request = $pdo->prepare($q);
     $request->bindValue('selectCity', $cityId);
