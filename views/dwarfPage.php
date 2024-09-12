@@ -12,14 +12,15 @@ try {
         $nainId = $_GET['selectNain'];
     }
 
-    $q = 'SELECT n_id, v_id, taverne.t_id AS id_taverne, n_nom, n_barbe, n_groupe_fk, v_nom, t_nom, g_debuttravail, g_fintravail,t_villedepart_fk,t_villearrivee_fk 
+    $q = 'SELECT n_id, origin.v_id , taverne.t_id AS id_taverne, n_nom, n_barbe, n_groupe_fk, origin.v_nom AS v_natale, t_nom, g_debuttravail, g_fintravail,t_villedepart_fk,t_villearrivee_fk, depart.v_nom AS v_depart, arrivee.v_nom AS v_arrivee 
     FROM nain
-    JOIN ville ON n_ville_fk = v_id
+    JOIN ville AS origin ON n_ville_fk = v_id
     LEFT JOIN groupe ON n_groupe_fk = g_id
     LEFT JOIN taverne ON g_taverne_fk = t_id
     LEFT JOIN tunnel ON v_id = t_villedepart_fk
-    WHERE n_id = :selectNain
-    ';
+    LEFT JOIN ville AS depart ON t_villedepart_fk = depart.v_id
+    LEFT JOIN ville AS arrivee ON t_villearrivee_fk = arrivee.v_id
+    WHERE n_id = :selectNain';
 
     $request = $pdo->prepare($q);
     $request->bindValue('selectNain', $nainId);
@@ -54,7 +55,7 @@ try {
         <div class="card-body d-flex text-center flex-column ">
             <h5 class="card-title">Name : <?= $nain['n_nom'] ?></h5>
             <p class="card-text">City : <a href="./cityPage.php?selectCity=<?= $nain['v_id'] ?>">
-                    <?= $nain['v_nom'] ?></a>
+                    <?= $nain['v_natale'] ?></a>
             </p>
             <p class="card-text">Longueur de barbe : <?= $nain['n_barbe'] ?></p>
             <p class="card-text <?= $nain['t_nom'] == NULL ? 'd-none' : '' ?>">
@@ -71,7 +72,7 @@ try {
             </p>
 
             <p class="card-text <?= $nain['n_groupe_fk'] == NULL ? 'd-none' : '' ?>">
-                Travaille de <?= $nain['g_debuttravail'] ?> à <?= $nain['g_fintravail'] ?> de <?= $nain['t_villedepart_fk'] ?> à <?= $nain['t_villearrivee_fk'] ?>
+                Travaille de <?= $nain['g_debuttravail'] ?> à <?= $nain['g_fintravail'] ?> du tunnel de <?= $nain['v_depart'] ?> à <?= $nain['v_arrivee'] ?>
             </p>
 
             <!-- Button trigger modal -->
