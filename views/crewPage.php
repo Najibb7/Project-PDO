@@ -63,7 +63,7 @@ try {
                 <?php if ($value['g_id'] == $crewId) : ?>
                     <p class="card-text">
                         <?= ($value['t_nom'] == NULL) ? 'Aucune taverne' : ("Boivent Chez : " . $value['t_nom']) ?></p>
-                    <p class="card-text">Creusent de <?= $value['g_debuttravail'] ?> a <?= $value['g_fintravail'] ?> le tunnel de <?= $value['villedepart'] ?> a <?= $value['villearrivee'] ?> <?= $value['t_progres'] == 100 ? '(Entretiennement)' :  ( "(" . $value['t_progres'] . "%)"); break; ?></p>
+                    <p class="card-text">Creusent de <?= $value['g_debuttravail'] ?> a <?= $value['g_fintravail'] ?> le tunnel de <?= $value['villedepart'] ?> a <?= $value['villearrivee'] ?> <?= $value['t_progres'] == 100 ? '(Entretient)' :  ( "(" . $value['t_progres'] . "%)"); break; ?></p>
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
