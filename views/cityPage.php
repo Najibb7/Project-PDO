@@ -100,7 +100,7 @@ try {
             </p>
             <p class="card-text"></p>
         </div>
-        <a href="../homePage.php" class="link d'flex text-center">Retour a la page d'accueil</a>
+        <a href="../homePage.php" class="link link-danger  text-center">Retour a la page d'accueil</a>
     </div>
     <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
         <h5 class="card-title shadow p-3 mb-5 bg-body-tertiary rounded"> Etats des tunnels : </h5>
@@ -125,7 +125,7 @@ try {
         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">' . $tunnel['t_progres'] . '%</span>';
                     }
 
-                    echo '<p>Tunnel vers <a href="ville.php?id=' . $idVille . '"> ' . $nomVille . '</a> : ' . $progres . ' </p> ';
+                    echo '<p>Tunnel vers <a href="./cityPage.php?selectCity=' . $idVille . '"> ' . $nomVille . '</a> : ' . $progres . ' </p> ';
                 }
                 ?>
             </div>

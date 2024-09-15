@@ -34,7 +34,7 @@ try {
             <p class="card-text <?= $pubs['t_brune'] == 1 ? '' : 'd-none' ?>">Brune : <?= $pubs['t_brune'] == 1 ? 'DISPONIBLE' : '' ?></p>
             <p class="card-text <?= $pubs['t_rousse'] == 1 ? '' : 'd-none' ?>">Rousse : <?= $pubs['t_rousse'] == 1 ? 'DISPONIBLE' : '' ?></p>
         </div>
-        <a href="../homePage.php" class="link d'flex text-center">Retour a la page d'accueil</a>
+        <a href="../homePage.php" class="link link-danger text-center">Retour a la page d'accueil</a>
     </div>
 </div>
 

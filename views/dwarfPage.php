@@ -93,25 +93,9 @@ try {
                                 <button type="submit" class="btn btn-danger my-2">Valider</button>
                             </form>
         </div>
-        <a href="../homePage.php" class="link d'flex text-center">Retour a la page d'accueil</a>
+        <a href="../homePage.php" class="link link-danger text-center">Retour a la page d'accueil</a>
     </div>
 </div>
-
-
-<!-- <div class="container py-5">
-    <div class="card d-flex mx-auto" style="width: 24rem;">
-        <div class="card-body d-flex mx-auto flex-column ">
-            <h5 class="card-title"></h5>
-            <p class="card-text"></p>
-            <p class="card-text"></p>
-            <p class="card-text "></p>
-            <p class="card-text "></p>
-            <p class="card-text "></p>
-        </div>
-    </div>
-</div> -->
-
-
 <?php
 require '../admin/inc/foot.php';
 ?>
