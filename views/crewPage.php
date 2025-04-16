@@ -170,6 +170,5 @@ try {
 </div>
 
 <?php
-dump($tavernesLibres);
 include '../admin/inc/foot.php';
 ?>
