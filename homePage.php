@@ -8,7 +8,7 @@ require_once 'controller/crewController.php';
 require_once 'controller/cityController.php';
 ?>
 
-<div class="container py-5 d-flex">
+<div class="container py-5 d-flex justify-content-center">
     <form action="views/dwarfPage.php" method="get">
             <div class="card p-3 me-4">
         <div class="card-body">
